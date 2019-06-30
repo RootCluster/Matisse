@@ -34,7 +34,7 @@ import android.widget.Toast;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.PicassoEngine;
+import com.zhihu.matisse.engine.impl.Glide4Engine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import com.zhihu.matisse.listener.OnCheckedListener;
@@ -58,7 +58,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.zhihu).setOnClickListener(this);
         findViewById(R.id.dracula).setOnClickListener(this);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter = new UriAdapter());
     }
@@ -83,7 +83,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
                                             .countable(true)
                                             .capture(true)
                                             .captureStrategy(
-                                                    new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider","test"))
+                                                    new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
                                             .maxSelectable(9)
                                             .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
                                             .gridExpectedSize(
@@ -122,7 +122,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
                                             .maxSelectable(9)
                                             .originalEnable(true)
                                             .maxOriginalSize(10)
-                                            .imageEngine(new PicassoEngine())
+                                            .imageEngine(new Glide4Engine())
                                             .forResult(REQUEST_CODE_CHOOSE);
                                     break;
                                 default:
@@ -167,14 +167,15 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
             notifyDataSetChanged();
         }
 
+        @NonNull
         @Override
-        public UriViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public UriViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new UriViewHolder(
                     LayoutInflater.from(parent.getContext()).inflate(R.layout.uri_item, parent, false));
         }
 
         @Override
-        public void onBindViewHolder(UriViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull UriViewHolder holder, int position) {
             holder.mUri.setText(mUris.get(position).toString());
             holder.mPath.setText(mPaths.get(position));
 
@@ -194,8 +195,8 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 
             UriViewHolder(View contentView) {
                 super(contentView);
-                mUri = (TextView) contentView.findViewById(R.id.uri);
-                mPath = (TextView) contentView.findViewById(R.id.path);
+                mUri = contentView.findViewById(R.id.uri);
+                mPath = contentView.findViewById(R.id.path);
             }
         }
     }

@@ -31,6 +31,7 @@ import com.zhihu.matisse.internal.loader.AlbumMediaLoader;
 import java.lang.ref.WeakReference;
 
 public class AlbumMediaCollection implements LoaderManager.LoaderCallbacks<Cursor> {
+
     private static final int LOADER_ID = 2;
     private static final String ARGS_ALBUM = "args_album";
     private static final String ARGS_ENABLE_CAPTURE = "args_enable_capture";
@@ -38,6 +39,7 @@ public class AlbumMediaCollection implements LoaderManager.LoaderCallbacks<Curso
     private LoaderManager mLoaderManager;
     private AlbumMediaCallbacks mCallbacks;
 
+    @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Context context = mContext.get();
@@ -55,7 +57,7 @@ public class AlbumMediaCollection implements LoaderManager.LoaderCallbacks<Curso
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         Context context = mContext.get();
         if (context == null) {
             return;
@@ -65,7 +67,7 @@ public class AlbumMediaCollection implements LoaderManager.LoaderCallbacks<Curso
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         Context context = mContext.get();
         if (context == null) {
             return;

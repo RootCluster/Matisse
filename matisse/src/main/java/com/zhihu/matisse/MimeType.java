@@ -18,6 +18,7 @@ package com.zhihu.matisse;
 
 import android.content.ContentResolver;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.support.v4.util.ArraySet;
 import android.webkit.MimeTypeMap;
@@ -36,7 +37,6 @@ import java.util.Set;
  * Good example of mime types Android supports:
  * https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/media/java/android/media/MediaFile.java
  */
-@SuppressWarnings("unused")
 public enum MimeType {
 
     // ============== images ==============
@@ -133,6 +133,7 @@ public enum MimeType {
         return new ArraySet<>(Arrays.asList(suffixes));
     }
 
+    @NonNull
     @Override
     public String toString() {
         return mMimeTypeName;

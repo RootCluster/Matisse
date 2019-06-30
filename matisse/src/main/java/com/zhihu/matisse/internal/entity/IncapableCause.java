@@ -26,8 +26,8 @@ import java.lang.annotation.Retention;
 
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
-@SuppressWarnings("unused")
 public class IncapableCause {
+
     public static final int TOAST = 0x00;
     public static final int DIALOG = 0x01;
     public static final int NONE = 0x02;

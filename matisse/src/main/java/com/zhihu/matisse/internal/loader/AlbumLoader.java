@@ -31,6 +31,7 @@ import com.zhihu.matisse.internal.entity.SelectionSpec;
  * Load all albums (grouped by bucket_id) into a single cursor.
  */
 public class AlbumLoader extends CursorLoader {
+
     public static final String COLUMN_COUNT = "count";
     private static final Uri QUERY_URI = MediaStore.Files.getContentUri("external");
     private static final String[] COLUMNS = {

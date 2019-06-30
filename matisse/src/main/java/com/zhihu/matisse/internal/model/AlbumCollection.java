@@ -19,6 +19,7 @@ package com.zhihu.matisse.internal.model;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -28,6 +29,7 @@ import com.zhihu.matisse.internal.loader.AlbumLoader;
 import java.lang.ref.WeakReference;
 
 public class AlbumCollection implements LoaderManager.LoaderCallbacks<Cursor> {
+
     private static final int LOADER_ID = 1;
     private static final String STATE_CURRENT_SELECTION = "state_current_selection";
     private WeakReference<Context> mContext;
@@ -36,6 +38,7 @@ public class AlbumCollection implements LoaderManager.LoaderCallbacks<Cursor> {
     private int mCurrentSelection;
     private boolean mLoadFinished;
 
+    @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Context context = mContext.get();
@@ -47,7 +50,7 @@ public class AlbumCollection implements LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         Context context = mContext.get();
         if (context == null) {
             return;
@@ -60,7 +63,7 @@ public class AlbumCollection implements LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         Context context = mContext.get();
         if (context == null) {
             return;

@@ -16,6 +16,7 @@
 package com.zhihu.matisse.internal.ui.widget;
 
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -32,10 +33,12 @@ public class MediaGridInset extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-                               RecyclerView.State state) {
-        int position = parent.getChildAdapterPosition(view); // item position
-        int column = position % mSpanCount; // item column
+    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent,
+                               @NonNull RecyclerView.State state) {
+        // item position
+        int position = parent.getChildAdapterPosition(view);
+        // item column
+        int column = position % mSpanCount;
 
         if (mIncludeEdge) {
             // spacing - column * ((1f / spanCount) * spacing)
@@ -43,17 +46,20 @@ public class MediaGridInset extends RecyclerView.ItemDecoration {
             // (column + 1) * ((1f / spanCount) * spacing)
             outRect.right = (column + 1) * mSpacing / mSpanCount;
 
-            if (position < mSpanCount) { // top edge
+            if (position < mSpanCount) {
+                // top edge
                 outRect.top = mSpacing;
             }
-            outRect.bottom = mSpacing; // item bottom
+            // item bottom
+            outRect.bottom = mSpacing;
         } else {
             // column * ((1f / spanCount) * spacing)
             outRect.left = column * mSpacing / mSpanCount;
             // spacing - (column + 1) * ((1f / spanCount) * spacing)
             outRect.right = mSpacing - (column + 1) * mSpacing / mSpanCount;
             if (position >= mSpanCount) {
-                outRect.top = mSpacing; // item top
+                // item top
+                outRect.top = mSpacing;
             }
         }
     }

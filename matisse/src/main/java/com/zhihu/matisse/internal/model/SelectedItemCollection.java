@@ -33,7 +33,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-@SuppressWarnings("unused")
 public class SelectedItemCollection {
 
     public static final String STATE_SELECTION = "state_selection";
@@ -223,8 +222,12 @@ public class SelectedItemCollection {
         boolean hasImage = false;
         boolean hasVideo = false;
         for (Item i : mItems) {
-            if (i.isImage() && !hasImage) hasImage = true;
-            if (i.isVideo() && !hasVideo) hasVideo = true;
+            if (i.isImage() && !hasImage) {
+                hasImage = true;
+            }
+            if (i.isVideo() && !hasVideo) {
+                hasVideo = true;
+            }
         }
         if (hasImage && hasVideo) {
             mCollectionType = COLLECTION_MIXED;

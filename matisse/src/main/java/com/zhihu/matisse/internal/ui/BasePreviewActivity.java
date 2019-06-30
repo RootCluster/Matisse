@@ -98,17 +98,17 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
             mSelectedCollection.onCreate(savedInstanceState);
             mOriginalEnable = savedInstanceState.getBoolean(CHECK_STATE);
         }
-        mButtonBack = (TextView) findViewById(R.id.button_back);
-        mButtonApply = (TextView) findViewById(R.id.button_apply);
-        mSize = (TextView) findViewById(R.id.size);
+        mButtonBack = findViewById(R.id.button_back);
+        mButtonApply = findViewById(R.id.button_apply);
+        mSize = findViewById(R.id.size);
         mButtonBack.setOnClickListener(this);
         mButtonApply.setOnClickListener(this);
 
-        mPager = (ViewPager) findViewById(R.id.pager);
+        mPager = findViewById(R.id.pager);
         mPager.addOnPageChangeListener(this);
         mAdapter = new PreviewPagerAdapter(getSupportFragmentManager(), null);
         mPager.setAdapter(mAdapter);
-        mCheckView = (CheckView) findViewById(R.id.check_view);
+        mCheckView = findViewById(R.id.check_view);
         mCheckView.setCountable(mSpec.countable);
         mBottomToolbar = findViewById(R.id.bottom_toolbar);
         mTopToolbar = findViewById(R.id.top_toolbar);
@@ -201,7 +201,7 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick() {
-        if (!mSpec.autoHideToobar) {
+        if (!mSpec.autoHideToolbar) {
             return;
         }
 
@@ -238,27 +238,29 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
     public void onPageSelected(int position) {
         PreviewPagerAdapter adapter = (PreviewPagerAdapter) mPager.getAdapter();
         if (mPreviousPos != -1 && mPreviousPos != position) {
-            ((PreviewItemFragment) adapter.instantiateItem(mPager, mPreviousPos)).resetView();
-
-            Item item = adapter.getMediaItem(position);
-            if (mSpec.countable) {
-                int checkedNum = mSelectedCollection.checkedNumOf(item);
-                mCheckView.setCheckedNum(checkedNum);
-                if (checkedNum > 0) {
-                    mCheckView.setEnabled(true);
+            if (adapter != null) {
+                ((PreviewItemFragment) adapter.instantiateItem(mPager, mPreviousPos)).resetView();
+                Item item = adapter.getMediaItem(position);
+                if (mSpec.countable) {
+                    int checkedNum = mSelectedCollection.checkedNumOf(item);
+                    mCheckView.setCheckedNum(checkedNum);
+                    if (checkedNum > 0) {
+                        mCheckView.setEnabled(true);
+                    } else {
+                        mCheckView.setEnabled(!mSelectedCollection.maxSelectableReached());
+                    }
                 } else {
-                    mCheckView.setEnabled(!mSelectedCollection.maxSelectableReached());
+                    boolean checked = mSelectedCollection.isSelected(item);
+                    mCheckView.setChecked(checked);
+                    if (checked) {
+                        mCheckView.setEnabled(true);
+                    } else {
+                        mCheckView.setEnabled(!mSelectedCollection.maxSelectableReached());
+                    }
                 }
-            } else {
-                boolean checked = mSelectedCollection.isSelected(item);
-                mCheckView.setChecked(checked);
-                if (checked) {
-                    mCheckView.setEnabled(true);
-                } else {
-                    mCheckView.setEnabled(!mSelectedCollection.maxSelectableReached());
-                }
+                updateSize(item);
             }
-            updateSize(item);
+
         }
         mPreviousPos = position;
     }
@@ -281,7 +283,7 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
             mButtonApply.setText(getString(R.string.button_sure, selectedCount));
         }
 
-        if (mSpec.originalable) {
+        if (mSpec.originalAble) {
             mOriginalLayout.setVisibility(View.VISIBLE);
             updateOriginalState();
         } else {
@@ -337,7 +339,7 @@ public abstract class BasePreviewActivity extends AppCompatActivity implements V
 
         if (item.isVideo()) {
             mOriginalLayout.setVisibility(View.GONE);
-        } else if (mSpec.originalable) {
+        } else if (mSpec.originalAble) {
             mOriginalLayout.setVisibility(View.VISIBLE);
         }
     }

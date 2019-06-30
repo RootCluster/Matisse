@@ -20,6 +20,7 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -63,8 +64,9 @@ public class AlbumMediaAdapter extends
         mRecyclerView = recyclerView;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_CAPTURE) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.photo_capture_item, parent, false);
             CaptureViewHolder holder = new CaptureViewHolder(v);
@@ -227,8 +229,8 @@ public class AlbumMediaAdapter extends
 
     public void refreshSelection() {
         GridLayoutManager layoutManager = (GridLayoutManager) mRecyclerView.getLayoutManager();
-        int first = layoutManager.findFirstVisibleItemPosition();
-        int last = layoutManager.findLastVisibleItemPosition();
+        int first = layoutManager != null ? layoutManager.findFirstVisibleItemPosition() : -1;
+        int last = layoutManager != null ? layoutManager.findLastVisibleItemPosition() : -1;
         if (first == -1 || last == -1) {
             return;
         }
@@ -246,7 +248,7 @@ public class AlbumMediaAdapter extends
     private int getImageResize(Context context) {
         if (mImageResize == 0) {
             RecyclerView.LayoutManager lm = mRecyclerView.getLayoutManager();
-            int spanCount = ((GridLayoutManager) lm).getSpanCount();
+            int spanCount = lm != null ? ((GridLayoutManager) lm).getSpanCount() : 0;
             int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
             int availableWidth = screenWidth - context.getResources().getDimensionPixelSize(
                     R.dimen.media_grid_spacing) * (spanCount - 1);
@@ -284,8 +286,7 @@ public class AlbumMediaAdapter extends
 
         CaptureViewHolder(View itemView) {
             super(itemView);
-
-            mHint = (TextView) itemView.findViewById(R.id.hint);
+            mHint = itemView.findViewById(R.id.hint);
         }
     }
 

@@ -22,14 +22,14 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 
 import com.zhihu.matisse.MimeType;
 
 public class Item implements Parcelable {
+
     public static final Creator<Item> CREATOR = new Creator<Item>() {
+
         @Override
-        @Nullable
         public Item createFromParcel(Parcel source) {
             return new Item(source);
         }
@@ -45,7 +45,8 @@ public class Item implements Parcelable {
     public final String mimeType;
     public final Uri uri;
     public final long size;
-    public final long duration; // only for video, in ms
+    // only for video, in ms
+    public final long duration;
 
     private Item(long id, String mimeType, long size, long duration) {
         this.id = id;
@@ -122,9 +123,9 @@ public class Item implements Parcelable {
         Item other = (Item) obj;
         return id == other.id
                 && (mimeType != null && mimeType.equals(other.mimeType)
-                    || (mimeType == null && other.mimeType == null))
+                || (mimeType == null && other.mimeType == null))
                 && (uri != null && uri.equals(other.uri)
-                    || (uri == null && other.uri == null))
+                || (uri == null && other.uri == null))
                 && size == other.size
                 && duration == other.duration;
     }

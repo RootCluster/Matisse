@@ -78,10 +78,12 @@ public class AlbumPreviewActivity extends BasePreviewActivity implements
         }
 
         PreviewPagerAdapter adapter = (PreviewPagerAdapter) mPager.getAdapter();
-        adapter.addAll(items);
-        adapter.notifyDataSetChanged();
+        if (adapter != null) {
+            adapter.addAll(items);
+            adapter.notifyDataSetChanged();
+        }
         if (!mIsAlreadySetPosition) {
-            //onAlbumMediaLoad is called many times..
+            // onAlbumMediaLoad is called many times..
             mIsAlreadySetPosition = true;
             Item selected = getIntent().getParcelableExtra(EXTRA_ITEM);
             int selectedIndex = items.indexOf(selected);

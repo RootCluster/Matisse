@@ -43,6 +43,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 public final class PhotoMetadataUtils {
+
     private static final String TAG = PhotoMetadataUtils.class.getSimpleName();
     private static final int MAX_WIDTH = 1600;
     private static final String SCHEME_CONTENT = "content";
@@ -65,7 +66,9 @@ public final class PhotoMetadataUtils {
             w = imageSize.y;
             h = imageSize.x;
         }
-        if (h == 0) return new Point(MAX_WIDTH, MAX_WIDTH);
+        if (h == 0) {
+            return new Point(MAX_WIDTH, MAX_WIDTH);
+        }
         DisplayMetrics metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         float screenWidth = (float) metrics.widthPixels;
@@ -172,7 +175,8 @@ public final class PhotoMetadataUtils {
         df.applyPattern("0.0");
         String result = df.format((float) sizeInBytes / 1024 / 1024);
         Log.e(TAG, "getSizeInMB: " + result);
-        result = result.replaceAll(",", "."); // in some case , 0.0 will be 0,0
+        // in some case , 0.0 will be 0,0
+        result = result.replaceAll(",", ".");
         return Float.valueOf(result);
     }
 }

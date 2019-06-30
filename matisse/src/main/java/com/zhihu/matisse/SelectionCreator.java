@@ -59,8 +59,8 @@ import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT;
 /**
  * Fluent API for building media select specification.
  */
-@SuppressWarnings("unused")
 public final class SelectionCreator {
+
     private final Matisse mMatisse;
     private final SelectionSpec mSelectionSpec;
 
@@ -149,10 +149,12 @@ public final class SelectionCreator {
      * @return {@link SelectionCreator} for fluent API.
      */
     public SelectionCreator maxSelectable(int maxSelectable) {
-        if (maxSelectable < 1)
+        if (maxSelectable < 1) {
             throw new IllegalArgumentException("maxSelectable must be greater than or equal to one");
-        if (mSelectionSpec.maxImageSelectable > 0 || mSelectionSpec.maxVideoSelectable > 0)
+        }
+        if (mSelectionSpec.maxImageSelectable > 0 || mSelectionSpec.maxVideoSelectable > 0) {
             throw new IllegalStateException("already set maxImageSelectable and maxVideoSelectable");
+        }
         mSelectionSpec.maxSelectable = maxSelectable;
         return this;
     }
@@ -163,11 +165,12 @@ public final class SelectionCreator {
      *
      * @param maxImageSelectable Maximum selectable count for image.
      * @param maxVideoSelectable Maximum selectable count for video.
-     * @return  {@link SelectionCreator} for fluent API.
+     * @return {@link SelectionCreator} for fluent API.
      */
     public SelectionCreator maxSelectablePerMediaType(int maxImageSelectable, int maxVideoSelectable) {
-        if (maxImageSelectable < 1 || maxVideoSelectable < 1)
+        if (maxImageSelectable < 1 || maxVideoSelectable < 1) {
             throw new IllegalArgumentException(("max selectable must be greater than or equal to one"));
+        }
         mSelectionSpec.maxSelectable = -1;
         mSelectionSpec.maxImageSelectable = maxImageSelectable;
         mSelectionSpec.maxVideoSelectable = maxVideoSelectable;
@@ -184,7 +187,6 @@ public final class SelectionCreator {
         if (mSelectionSpec.filters == null) {
             mSelectionSpec.filters = new ArrayList<>();
         }
-        if (filter == null) throw new IllegalArgumentException("filter cannot be null");
         mSelectionSpec.filters.add(filter);
         return this;
     }
@@ -209,18 +211,19 @@ public final class SelectionCreator {
      * @return {@link SelectionCreator} for fluent API.
      */
     public SelectionCreator originalEnable(boolean enable) {
-        mSelectionSpec.originalable = enable;
+        mSelectionSpec.originalAble = enable;
         return this;
     }
 
 
     /**
      * Determines Whether to hide top and bottom toolbar in PreView mode ,when user tap the picture
-     * @param enable
+     *
+     * @param enable enable
      * @return {@link SelectionCreator} for fluent API.
      */
     public SelectionCreator autoHideToolbarOnSingleTap(boolean enable) {
-        mSelectionSpec.autoHideToobar = enable;
+        mSelectionSpec.autoHideToolbar = enable;
         return this;
     }
 
@@ -269,7 +272,9 @@ public final class SelectionCreator {
      * @return {@link SelectionCreator} for fluent API.
      */
     public SelectionCreator spanCount(int spanCount) {
-        if (spanCount < 1) throw new IllegalArgumentException("spanCount cannot be less than 1");
+        if (spanCount < 1) {
+            throw new IllegalArgumentException("spanCount cannot be less than 1");
+        }
         mSelectionSpec.spanCount = spanCount;
         return this;
     }
@@ -295,8 +300,9 @@ public final class SelectionCreator {
      * @return {@link SelectionCreator} for fluent API.
      */
     public SelectionCreator thumbnailScale(float scale) {
-        if (scale <= 0f || scale > 1f)
+        if (scale <= 0f || scale > 1f) {
             throw new IllegalArgumentException("Thumbnail scale must be between (0.0, 1.0]");
+        }
         mSelectionSpec.thumbnailScale = scale;
         return this;
     }
@@ -305,8 +311,7 @@ public final class SelectionCreator {
      * Provide an image engine.
      * <p>
      * There are two built-in image engines:
-     * 1. {@link com.zhihu.matisse.engine.impl.GlideEngine}
-     * 2. {@link com.zhihu.matisse.engine.impl.PicassoEngine}
+     * 1. {@link com.zhihu.matisse.engine.impl.Glide4Engine}
      * And you can implement your own image engine.
      *
      * @param imageEngine {@link ImageEngine}

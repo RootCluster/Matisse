@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 
 public class RoundedRectangleImageView extends AppCompatImageView {
 
-    private float mRadius; // dp
+    private float mRadius;
     private Path mRoundedRectPath;
     private RectF mRectF;
 

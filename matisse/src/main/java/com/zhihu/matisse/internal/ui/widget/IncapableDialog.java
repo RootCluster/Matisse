@@ -42,8 +42,8 @@ public class IncapableDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        String title = getArguments().getString(EXTRA_TITLE);
-        String message = getArguments().getString(EXTRA_MESSAGE);
+        String title = getArguments() != null ? getArguments().getString(EXTRA_TITLE) : null;
+        String message = getArguments() != null ? getArguments().getString(EXTRA_MESSAGE) : null;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (!TextUtils.isEmpty(title)) {
